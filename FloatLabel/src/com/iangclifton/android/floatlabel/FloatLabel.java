@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.view.GravityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -242,7 +243,7 @@ public class FloatLabel extends FrameLayout {
                 layoutDirection = getLayoutDirection();
             }
 
-            final int absoluteGravity = Gravity.getAbsoluteGravity(gravity, layoutDirection);
+            final int absoluteGravity = GravityCompat.getAbsoluteGravity(gravity, layoutDirection);
 
             switch (absoluteGravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
                 case Gravity.CENTER_HORIZONTAL:
