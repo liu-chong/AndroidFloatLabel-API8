@@ -30,6 +30,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import com.nineoldandroids.view.ViewHelper;
+import com.nineoldandroids.view.ViewPropertyAnimator;
 
 /**
  * A ViewGroup that consists of an EditText and a TextView as the label.<br/>
@@ -387,7 +389,7 @@ public class FloatLabel extends FrameLayout {
 
         // Check current state of EditText
         if (mEditText.getText().length() == 0) {
-            mLabel.setAlpha(0);
+            ViewHelper.setAlpha(mLabel,0);
             mLabelShowing = false;
         } else {
             mLabel.setVisibility(View.VISIBLE);
@@ -409,21 +411,21 @@ public class FloatLabel extends FrameLayout {
         @Override
         public void onDisplayLabel(View label) {
             final float offset = label.getHeight() / 2;
-            final float currentY = label.getY();
+            final float currentY = ViewHelper.getY(label);
             if (currentY != offset) {
-                label.setY(offset);
+                ViewHelper.setY(label,offset);
             }
-            label.animate().alpha(1).y(0);
+            ViewPropertyAnimator.animate(label).alpha(1).y(0);
         }
 
         @Override
         public void onHideLabel(View label) {
             final float offset = label.getHeight() / 2;
-            final float currentY = label.getY();
+            final float currentY = ViewHelper.getY(label);
             if (currentY != 0) {
-                label.setY(0);
+                ViewHelper.setY(label,0);
             }
-            label.animate().alpha(0).y(offset);
+            ViewPropertyAnimator.animate(label).alpha(0).y(offset);
         }
     }
     /**
