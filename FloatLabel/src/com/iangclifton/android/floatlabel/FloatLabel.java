@@ -25,6 +25,7 @@ import android.os.Parcelable;
 import android.support.v4.view.GravityCompat;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -380,8 +381,15 @@ public class FloatLabel extends FrameLayout {
             throw new RuntimeException(
                     "Your layout must have an EditText whose ID is @id/edit_text");
         }
-        mEditText.setHint(hint);
-        mEditText.setText(text);
+        
+        if (!TextUtils.isEmpty(hint)) {
+            mEditText.setHint(hint);
+        }
+
+        if (!TextUtils.isEmpty(text)) {
+            mEditText.setText(text);
+        }
+        
         if (hintColor != null) {
             mEditText.setHintTextColor(hintColor);
         }
@@ -402,7 +410,7 @@ public class FloatLabel extends FrameLayout {
         mEditText.addTextChangedListener(new EditTextWatcher());
 
         // Check current state of EditText
-        if (mEditText.getText().length() == 0) {
+        if (TextUtils.isEmpty(mEditText.getText())) {
             ViewHelper.setAlpha(mLabel,0);
             mLabelShowing = false;
         } else {
@@ -451,7 +459,17 @@ public class FloatLabel extends FrameLayout {
     private class EditTextWatcher implements TextWatcher {
         @Override
         public void afterTextChanged(Editable s) {
-            if (s.length() == 0) {
+            // Ignored
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Ignored
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (TextUtils.isEmpty(s)) {
                 // Text is empty; TextView label should be invisible
                 if (mLabelShowing) {
                     mLabelAnimator.onHideLabel(mLabel);
@@ -462,16 +480,6 @@ public class FloatLabel extends FrameLayout {
                 mLabelShowing = true;
                 mLabelAnimator.onDisplayLabel(mLabel);
             }
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // Ignored
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // Ignored
         }
     }
 }
