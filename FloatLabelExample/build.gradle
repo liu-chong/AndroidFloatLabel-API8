@@ -1,14 +1,10 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
-dependencies {
-    compile 'com.android.support:support-v4:19.1.0'
-    //compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':FloatLabel')
-}
+dependencies { compile project(':FloatLabel') }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    compileSdkVersion 21
+    buildToolsVersion "21.0.1"
 
     sourceSets {
         main {
@@ -33,4 +29,5 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
+    lintOptions { abortOnError false }
 }
